@@ -19,7 +19,7 @@ export interface Car{
     price: number;
     description: string;
     seats: number;
-    image: string;
+    image: string[];
     views: number;
     isAvailable: boolean;
 
