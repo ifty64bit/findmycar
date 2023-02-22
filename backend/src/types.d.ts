@@ -1,4 +1,4 @@
-export interface User{
+export interface User {
     id: string;
     name: string;
     email: string;
@@ -9,10 +9,12 @@ export interface User{
     verificationToken: string;
     loginAttempts: number;
     lastLoginAttempt: Date;
+    lockedUntil: Date | null;
+    lastFailedLoginAttempt: Date | null;
     bookmarks: string[] | Car[];
 }
 
-export interface Car{
+export interface Car {
     id: string;
     name: string;
     brand: string;
@@ -23,5 +25,4 @@ export interface Car{
     image: string[];
     views: number;
     isAvailable: boolean;
-
 }
