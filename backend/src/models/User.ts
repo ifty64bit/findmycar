@@ -4,6 +4,7 @@ import { User } from "../types";
 const userSchema = new Schema<User>({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    displayPhoto: { type: String, default: null },
     password: { type: String, required: true, max:124, min:6 },
     isVerified: { type: Boolean, default: false },
     token: { type: String, default: null },

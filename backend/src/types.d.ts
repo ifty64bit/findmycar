@@ -2,6 +2,7 @@ export interface User{
     id: string;
     name: string;
     email: string;
+    displayPhoto: string;
     password: string;
     isVerified: boolean;
     token: string;
