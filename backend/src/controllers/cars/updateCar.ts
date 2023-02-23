@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import Cars from "../../models/Cars";
 import { Car } from "../../types";
-import updateFileConfirmation from "../../utils/mailtemplates/updateCarConfirmation";
+import updateCarConfirmation from "../../utils/mailtemplates/updateCarConfirmation";
+import notifyUpdate from "../../utils/mailtemplates/notifyUpdate";
+import Bookmarks from "../../models/Bookmarks";
 
 type PartialCar = Partial<Car>;
 
@@ -18,7 +20,21 @@ export default async (req: Request, res: Response) => {
         if (!car) {
             return res.status(404).json({ message: "Car not found" });
         }
-        await updateFileConfirmation(car?.owner?.email, car.name, car._id);
+        await updateCarConfirmation(car?.owner?.email, car.name, car._id);
+
+        //notifying the bookmarked user that the car has been updated
+        const bookmarks = await Bookmarks.find({ car: id }).populate(
+            "user",
+            "email"
+        );
+        bookmarks.forEach((bookmark) => {       //Not used asyc/await here because it will slow down the process
+            notifyUpdate(bookmark?.user?.email, car.name, car._id).catch(
+                (err) => {
+                    console.error(err);
+                }
+            );
+        });
+
         return res.status(200).json(car);
     } catch (error) {
         console.error(error);

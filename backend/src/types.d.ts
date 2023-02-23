@@ -13,7 +13,6 @@ export interface User extends Document {
     lastLoginAttempt: Date;
     lockedUntil: Date | null;
     lastFailedLoginAttempt: Date | null;
-    bookmarks: string[] | Car[];
 }
 
 export interface Car extends Document {
@@ -28,4 +27,9 @@ export interface Car extends Document {
     views: number;
     isAvailable: boolean;
     owner: User | string;
+}
+
+export interface Bookmark extends Document {
+    user: Types.ObjectId;
+    car: Types.ObjectId;
 }

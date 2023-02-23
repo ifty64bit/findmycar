@@ -13,7 +13,6 @@ const userSchema = new Schema<User>({
     lastLoginAttempt: { type: Date, default: null },
     lastFailedLoginAttempt: { type: Date, default: null },
     lockedUntil: { type: Date, default: null },
-    bookmarks: [{ type: Schema.Types.ObjectId, ref: "Cars" }]
 });
 
 export default model<User>("Users", userSchema);

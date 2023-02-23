@@ -6,6 +6,8 @@ import connectDB from "./utils/connectDB";
 import authRoute from "./routes/auth/route";
 import userRoute from "./routes/users/route";
 import carRoute from "./routes/cars/route";
+import bookmarkRoute from "./routes/bookmarks/route";
+import statisticsRoute from "./routes/statistics/route";
 import path from "path";
 
 dotenv.config();
@@ -30,6 +32,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/cars", carRoute);
+app.use("/bookmarks", bookmarkRoute);
+app.use("/statistics", statisticsRoute);
 
 app.listen(process.env.EXPRESS_PORT || 8080, () => {
     console.log(`Server is running on port ${process.env.EXPRESS_PORT}`);
