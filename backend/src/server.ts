@@ -1,6 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 //import utils files
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "./utils/connectDB";
 //import Route Files
 import authRoute from "./routes/auth/route";
@@ -15,6 +16,9 @@ connectDB();
 
 const app: Express = express();
 //Common Middleware
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/public")));
