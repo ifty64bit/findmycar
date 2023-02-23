@@ -9,11 +9,11 @@ import loginValidation from "./validations/loginValidation";
 
 const router = Router();
 
-router.post("/login", upload.none(), validate(loginValidation), login);
+router.post("/login", upload().none(), validate(loginValidation), login);
 
 router.post(
     "/register",
-    upload.single("displayPhoto"),
+    upload("displayphoto").single("displayPhoto"),
     validate(registerValidation),
     register
 );

@@ -8,9 +8,10 @@ const carSchema = new Schema<Car>({
     price: { type: Number, required: true },
     description: { type: String, required: true },
     seats: { type: Number, required: true },
-    image: [{ type: String, required: true }],
+    images: [{ type: String, required: true }],
     views: { type: Number, default: 0 },
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    owner: { type: Schema.Types.ObjectId, ref: "Users" },
 });
 
 export default model<Car>("Cars", carSchema);

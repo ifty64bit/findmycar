@@ -1,5 +1,7 @@
-export interface User {
-    id: string;
+import { Document } from "mongoose";
+
+export interface User extends Document {
+    _id: string;
     name: string;
     email: string;
     displayPhoto: string;
@@ -14,15 +16,16 @@ export interface User {
     bookmarks: string[] | Car[];
 }
 
-export interface Car {
-    id: string;
+export interface Car extends Document {
+    _id: string;
     name: string;
     brand: string;
     year: number;
     price: number;
     description: string;
     seats: number;
-    image: string[];
+    images: string[];
     views: number;
     isAvailable: boolean;
+    owner: User | string;
 }
