@@ -6,6 +6,7 @@ import {
     getAllCars,
     getCarById,
     updateCar,
+    search,
 } from "../../controllers/cars";
 import validate from "../../middlewares/validate";
 import addCarValidation from "./validations/addCarValidation";
@@ -15,6 +16,7 @@ import getMyCars from "../../controllers/cars/getMyCars";
 const router = Router();
 
 router.get("/", getAllCars);
+router.get("/search", search);
 router.get("/my", checkAuth, getMyCars);
 router.get("/:id", getCarById);
 router.post(

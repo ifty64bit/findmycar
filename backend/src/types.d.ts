@@ -33,3 +33,8 @@ export interface Bookmark extends Document {
     user: Types.ObjectId;
     car: Types.ObjectId;
 }
+
+export interface Search{
+    query: string;
+    user?: Types.ObjectId | User;
+}
