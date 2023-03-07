@@ -16,7 +16,14 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ICar } from "@/types";
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Typography,
+} from "@mui/material";
 import Link from "next/link";
 import { MdArrowRightAlt } from "react-icons/md";
 
@@ -49,7 +56,9 @@ function Dashboard({}: Props) {
     const isLoggedIn = useAuth();
 
     const [carData, setCarData] = useState<ICar[] | undefined>();
-    const [myCar, setMyCar] = useState<ICar[] | undefined>();
+    const [myCar, setMyCar] = useState<
+        { cars: ICar[]; count: number } | undefined
+    >();
 
     if (isLoggedIn === false) router.push("/login");
 
@@ -66,6 +75,8 @@ function Dashboard({}: Props) {
         (async () => {
             try {
                 const { data } = await axios.get(`/cars/my`);
+                console.log(data);
+
                 setMyCar(data);
             } catch (error) {
                 console.log(error);
@@ -105,46 +116,50 @@ function Dashboard({}: Props) {
                         <Bar options={options} data={data} />
                     </div>
                     <div className="flex gap-8 flex-wrap mt-24 p-8">
-                    {myCar?.map((car: ICar) => {
-                        return (
-                            <div key={car._id}>
-                                <Card sx={{ maxWidth: 345 }}>
-                                    <CardMedia
-                                        sx={{ height: 140 }}
-                                        image={`${process.env.NEXT_PUBLIC_URL}/images/cars/${car.images[0]}`}
-                                        title="green iguana"
-                                    />
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="div"
-                                        >
-                                            {car.name}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                        >
-                                            {car.description}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Link href={`/cars/${car._id}/edit`}>
-                                            <Button
-                                                variant="contained"
-                                                size="small"
+                        {myCar?.cars?.map((car: ICar) => {
+                            return (
+                                <div key={car._id}>
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardMedia
+                                            sx={{ height: 140 }}
+                                            image={`${process.env.NEXT_PUBLIC_URL}/images/cars/${car.images[0]}`}
+                                            title="green iguana"
+                                        />
+                                        <CardContent>
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                component="div"
                                             >
-                                                Edit
-                                                <MdArrowRightAlt size={20} />
-                                            </Button>
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                            </div>
-                        );
-                    })}
-                </div>
+                                                {car.name}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                color="text.secondary"
+                                            >
+                                                {car.description}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Link
+                                                href={`/cars/${car._id}/edit`}
+                                            >
+                                                <Button
+                                                    variant="contained"
+                                                    size="small"
+                                                >
+                                                    Edit
+                                                    <MdArrowRightAlt
+                                                        size={20}
+                                                    />
+                                                </Button>
+                                            </Link>
+                                        </CardActions>
+                                    </Card>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </MainLayout>
             </main>
         </>

@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import { ICar } from "@/types";
-import { GetServerSidePropsContext } from "next";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState, useEffect } from "react";
@@ -10,6 +9,7 @@ import { useRouter } from "next/router";
 import Filter from "@/components/Filter";
 import removeNullandEmpty from "../../lib/removeNullandEmpty";
 import { Bars } from "react-loader-spinner";
+import Link from "next/link";
 
 type Props = {};
 
@@ -91,12 +91,15 @@ function Search({}: Props) {
                                                 <TbCurrencyTaka /> {car.price}
                                             </h3>
                                             <span className="inline-flex">
-                                                <a className="inline-flex items-center bg-indigo-600 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-500 rounded text-base mt-4 md:mt-0">
+                                                <Link
+                                                    href={`/cars/${car._id}`}
+                                                    className="inline-flex items-center bg-indigo-600 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-500 rounded text-base mt-4 md:mt-0"
+                                                >
                                                     View{" "}
                                                     <span>
                                                         <MdKeyboardArrowRight />
                                                     </span>
-                                                </a>
+                                                </Link>
                                             </span>
                                         </div>
                                     </div>

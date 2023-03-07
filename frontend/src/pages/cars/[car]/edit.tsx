@@ -37,7 +37,6 @@ function Edit({}: Props) {
             try {
                 if (!car) return;
                 const { data } = await axios.get(`/cars/${car}`);
-
                 setCarData(data);
             } catch (error) {
                 console.log(error);
@@ -93,7 +92,7 @@ function Edit({}: Props) {
                                             }
                                         );
                                     setIsModalOpen(true);
-                                    console.log(ResponseData);
+                                    setCarData(ResponseData);
                                 } catch (error: any) {
                                     console.log(error?.response?.data);
                                     setErrorMsg(error?.response?.data?.msg);
@@ -110,23 +109,27 @@ function Edit({}: Props) {
                             }) => (
                                 <Form className="w-96 p-4 border rounded-lg bg-white">
                                     <div>
-                                        <div className="flex justify-between items-center">
-                                            <h3 className="font-semibold">
-                                                Create Car
-                                            </h3>
+                                        <div className="flex justify-between items-center w-full">
+                                            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 ">
+                                                Update Car
+                                            </h1>
                                         </div>
                                         <hr />
                                     </div>
-                                    <div className="mt-2">
+                                    <div className="">
+                                        <div className="p-2 w-1/2"></div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="name">Name</label>
+                                            <label className="leading-7 text-sm text-gray-600">
+                                                Name
+                                            </label>
                                             <input
                                                 type="text"
+                                                id="name"
                                                 name="name"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.name}
-                                                className="border"
                                             />
                                             {errors.name && touched.name ? (
                                                 <div className="text-red-600">
@@ -135,14 +138,19 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="brand">Brand</label>
+                                            <label
+                                                htmlFor="brand"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
+                                                Brand
+                                            </label>
                                             <input
                                                 type="text"
                                                 name="brand"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.brand}
-                                                className="border"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             />
                                             {errors.brand && touched.brand ? (
                                                 <div className="text-red-600">
@@ -151,14 +159,19 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="year">Year</label>
+                                            <label
+                                                htmlFor="year"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
+                                                Year
+                                            </label>
                                             <input
                                                 type="number"
                                                 name="year"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.year}
-                                                className="border"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             />
                                             {errors.year && touched.year ? (
                                                 <div className="text-red-600">
@@ -167,14 +180,14 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="price">Price</label>
+                                            <label htmlFor="price" className="leading-7 text-sm text-gray-600">Price</label>
                                             <input
                                                 type="number"
                                                 name="price"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.price}
-                                                className="border"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             />
                                             {errors.price && touched.price ? (
                                                 <div className="text-red-600">
@@ -183,7 +196,7 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="description">
+                                            <label htmlFor="description" className="leading-7 text-sm text-gray-600">
                                                 Description
                                             </label>
                                             <input
@@ -192,7 +205,7 @@ function Edit({}: Props) {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.description}
-                                                className="border"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             />
                                             {errors.description &&
                                             touched.description ? (
@@ -202,14 +215,14 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="seats">Seats</label>
+                                            <label htmlFor="seats" className="leading-7 text-sm text-gray-600">Seats</label>
                                             <input
                                                 type="number"
                                                 name="seats"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.seats}
-                                                className="border"
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             />
                                             {errors.seats && touched.seats ? (
                                                 <div className="text-red-600">
@@ -219,7 +232,7 @@ function Edit({}: Props) {
                                         </div>
 
                                         <div className="flex flex-col">
-                                            <label htmlFor="isAvailable">
+                                            <label htmlFor="isAvailable" className="leading-7 text-sm text-gray-600">
                                                 Availability
                                             </label>
                                             <Switch
@@ -239,7 +252,7 @@ function Edit({}: Props) {
                                                 className="bg-indigo-600 text-white px-4 py-2 rounded-lg mt-4"
                                                 type="submit"
                                             >
-                                                Add Car
+                                                Update
                                             </button>
                                             <p className="text-red-600">
                                                 {errorMsg}
@@ -257,7 +270,7 @@ function Edit({}: Props) {
                     >
                         <div className="flex flex-col items-center">
                             <p className="text-2xl font-semibold">
-                                Car Added Successfully
+                                Car Updated Successfully
                             </p>
                             <Link
                                 href="/cars"

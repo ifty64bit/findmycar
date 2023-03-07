@@ -24,6 +24,31 @@ function Header({}: Props) {
                     <Link href={`/`} className="mr-5 hover:text-gray-900">
                         Home
                     </Link>
+                    {auth && (
+                        <Link
+                            href={`/dashboard`}
+                            className="mr-5 hover:text-gray-900"
+                        >
+                            Dashboard
+                        </Link>
+                    )}
+
+                    {auth && (
+                        <Link
+                            href={`/search`}
+                            className="mr-5 hover:text-gray-900"
+                        >
+                            Search
+                        </Link>
+                    )}
+                    {auth && (
+                        <Link
+                            href={`/cars`}
+                            className="mr-5 hover:text-gray-900"
+                        >
+                            My Cars
+                        </Link>
+                    )}
                     <Link href={`/about`} className="mr-5 hover:text-gray-900">
                         About
                     </Link>

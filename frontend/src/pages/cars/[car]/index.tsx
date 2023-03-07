@@ -5,6 +5,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { BsHeartFill } from "react-icons/bs";
 import { Triangle } from "react-loader-spinner";
 import axios from "../../../lib/axios";
 
@@ -15,7 +17,9 @@ function Car({}: Props) {
     const { car } = router.query;
     const isLoggedin = useAuth();
 
-    const [carData, setCarData] = useState<ICar | undefined>();
+    const [carData, setCarData] = useState<
+        (ICar & { bookmarked: Boolean }) | undefined
+    >();
 
     useEffect(() => {
         if (car) {
@@ -28,10 +32,19 @@ function Car({}: Props) {
 
     async function handleBookmark() {
         try {
-            const { data } = await axios.post(`/bookmarks`, {
+            const response = await axios.post(`/bookmarks`, {
                 carId: carData?._id,
             });
-            console.log(data);
+            if (response.status === 200) {
+                setCarData((prevState) => {
+                    if (prevState) {
+                        return {
+                            ...prevState,
+                            bookmarked: !prevState.bookmarked,
+                        };
+                    }
+                });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -44,7 +57,7 @@ function Car({}: Props) {
             </Head>
             <main>
                 <MainLayout>
-                    <div className="flex gap-8 mt-24 p-8">
+                    <div className="w-4/5 mx-auto flex gap-8 mt-24 p-8">
                         <div>
                             <div>
                                 <Image
@@ -70,74 +83,54 @@ function Car({}: Props) {
                             </div>
                         </div>
                         {/* //Right Portion */}
-                        <div>
-                            <div className="flex flex-col justify-between items-start gap-4">
-                                <h1 className="text-2xl font-semibold">
-                                    {carData.name}
-                                </h1>
-                                <div className="flex gap-4">
-                                    {isLoggedin ? (
-                                        <button
-                                            className="bg-indigo-600 text-white px-4 py-2 rounded-md"
-                                            onClick={handleBookmark}
-                                        >
-                                            Bookmark
-                                        </button>
-                                    ) : (
-                                        <button className="bg-indigo-600 text-white px-4 py-2 rounded-md">
-                                            Login to Bookmark
-                                        </button>
-                                    )}
-                                </div>
-                                <div>
-                                    <div className="flex gap-4">
-                                        <div className="flex flex-col gap-2">
-                                            <span className="text-gray-500">
-                                                Price
-                                            </span>
-                                            <span className="text-gray-500">
-                                                {carData.price}Tk
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-2">
-                                            <span className="text-gray-500">
-                                                Year
-                                            </span>
-                                            <span className="text-gray-500">
-                                                {carData.year}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-2">
-                                            <span className="text-gray-500">
-                                                Brand
-                                            </span>
-                                            <span className="text-gray-500">
-                                                {carData.brand}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-2">
-                                            <span className="text-gray-500">
-                                                Seat
-                                            </span>
-                                            <span className="text-gray-500">
-                                                {carData.seats}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-xl">
-                                            Description
-                                        </h3>
-                                        <p className="">
-                                            {carData.description}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-lg">
-                                            Viewd by: {carData.views} People
-                                        </h3>
-                                    </div>
-                                </div>
+
+                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                            <h2 className="text-sm title-font text-gray-500 tracking-widest">
+                                {carData.brand}
+                            </h2>
+                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
+                                {carData.name}
+                            </h1>
+                            <h2 className="text-sm title-font text-gray-500 tracking-widest">
+                                {carData.year}
+                            </h2>
+                            <p className="leading-relaxed">
+                                {carData.description}
+                            </p>
+                            <hr className="my-4" />
+                            <div className="flex gap-3">
+                                <h3 className="font-semibold">
+                                    {carData.seats} Seats
+                                </h3>{" "}
+                                |{" "}
+                                <h3 className="font-semibold">
+                                    {carData.views} Views
+                                </h3>{" "}
+                                |{" "}
+                                <h3 className="font-semibold">
+                                    {carData.isAvailable
+                                        ? "Available"
+                                        : "Not Available"}
+                                </h3>
+                            </div>
+                            <div className="flex">
+                                <span className="title-font font-medium text-2xl text-gray-900 flex items-center">
+                                    <TbCurrencyTaka /> {carData.price}
+                                </span>
+                                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                    Button
+                                </button>
+                                <button
+                                    className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+                                    onClick={handleBookmark}
+                                >
+                                    <BsHeartFill
+                                        size={20}
+                                        fill={
+                                            carData.bookmarked ? "red" : "gray"
+                                        }
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>
