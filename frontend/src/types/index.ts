@@ -31,6 +31,12 @@ export interface IBookmark {
     car: string | ICar;
 }
 
+export interface ISearch {
+    _id: string;
+    query: string;
+    user: string | IUser;
+}
+
 export interface IError {
     errors: [
         {

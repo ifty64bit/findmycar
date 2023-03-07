@@ -33,7 +33,7 @@ function Cars({}: Props) {
                 <title>My Cars</title>
             </Head>
             <MainLayout>
-                <div className="w-4/5 mx-auto flex gap-8 flex-wrap mt-24 p-8">
+                <div className="flex gap-8 flex-wrap mt-24 p-8">
                     {cars?.length &&
                         cars?.map((car: ICar) => {
                             return (

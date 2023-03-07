@@ -15,7 +15,7 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { ICar } from "@/types";
+import { ICar, ISearch } from "@/types";
 import {
     Button,
     Card,
@@ -26,6 +26,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { MdArrowRightAlt } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 
 ChartJS.register(
     CategoryScale,
@@ -59,6 +60,7 @@ function Dashboard({}: Props) {
     const [myCar, setMyCar] = useState<
         { cars: ICar[]; count: number } | undefined
     >();
+    const [searchHistory, setSearchHistory] = useState<ISearch[]>([]);
 
     if (isLoggedIn === false) router.push("/login");
 
@@ -82,6 +84,15 @@ function Dashboard({}: Props) {
                 console.log(error);
             }
         })();
+
+        (async () => {
+            try {
+                const { data } = await axios.get(`/users/search-history`);
+                setSearchHistory(data);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     }, []);
 
     const data = {
@@ -94,6 +105,26 @@ function Dashboard({}: Props) {
             },
         ],
     };
+
+    async function deleteAllHistory() {
+        try {
+            const { data } = await axios.delete(`/users/search-history-all`);
+            setSearchHistory([]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function deleteOneHistory(id: string) {
+        try {
+            const { data } = await axios.delete(`/users/search-history/${id}`);
+            setSearchHistory(
+                searchHistory.filter((search: ISearch) => search._id !== id)
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return isLoggedIn === null ? (
         <Triangle
@@ -112,8 +143,48 @@ function Dashboard({}: Props) {
             </Head>
             <main>
                 <MainLayout>
-                    <div className="mt-24 p-4">
-                        <Bar options={options} data={data} />
+                    <div className="mt-24 p-4 flex gap-4">
+                        <div className="w-3/4">
+                            <Bar options={options} data={data} />
+                        </div>
+
+                        <div className="border p-2">
+                            <div className="w-56 flex justify-between items-center">
+                                <h3 className="font-semibold">Recent Seaech</h3>
+                                <button
+                                    className="inline-flex items-center bg-red-600 text-white border-0 py-1 px-3 focus:outline-none hover:bg-red-500 rounded text-base mt-4 md:mt-0"
+                                    onClick={deleteAllHistory}
+                                >
+                                    Delete All
+                                </button>
+                            </div>
+                            <hr className="my-4" />
+                            <ul>
+                                {searchHistory.length == 0 ? (
+                                    <p>Empty History</p>
+                                ) : (
+                                    searchHistory?.map((search: ISearch) => {
+                                        return (
+                                            <li
+                                                key={search._id}
+                                                className="flex justify-between items-center border-b-2 border-gray-200 py-2"
+                                            >
+                                                {search.query}{" "}
+                                                <IoMdClose
+                                                    color="red"
+                                                    className="cursor-pointer"
+                                                    onClick={() =>
+                                                        deleteOneHistory(
+                                                            search._id
+                                                        )
+                                                    }
+                                                />
+                                            </li>
+                                        );
+                                    })
+                                )}
+                            </ul>
+                        </div>
                     </div>
                     <div className="flex gap-8 flex-wrap mt-24 p-8">
                         {myCar?.cars?.map((car: ICar) => {
