@@ -27,6 +27,8 @@ import {
 import Link from "next/link";
 import { MdArrowRightAlt } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import { display } from "@mui/system";
+import Modal from "@/components/Modal";
 
 ChartJS.register(
     CategoryScale,
@@ -61,6 +63,8 @@ function Dashboard({}: Props) {
         { cars: ICar[]; count: number } | undefined
     >();
     const [searchHistory, setSearchHistory] = useState<ISearch[]>([]);
+    const [selectedCar, setSelectedCar] = useState<ICar | undefined>();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     if (isLoggedIn === false) router.push("/login");
 
@@ -121,6 +125,23 @@ function Dashboard({}: Props) {
             setSearchHistory(
                 searchHistory.filter((search: ISearch) => search._id !== id)
             );
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function deleetCar() {
+        try {
+            await axios.delete(`/cars/${selectedCar?._id}`);
+            if (myCar !== undefined) {
+                setMyCar({
+                    cars: myCar?.cars.filter(
+                        (car: ICar) => car._id !== selectedCar?._id
+                    ),
+                    count: myCar?.count - 1,
+                });
+                setIsModalOpen(false);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -211,7 +232,12 @@ function Dashboard({}: Props) {
                                                 {car.description}
                                             </Typography>
                                         </CardContent>
-                                        <CardActions>
+                                        <CardActions
+                                            sx={{
+                                                display: "flex",
+                                                gap: "1rem",
+                                            }}
+                                        >
                                             <Link
                                                 href={`/cars/${car._id}/edit`}
                                             >
@@ -225,6 +251,18 @@ function Dashboard({}: Props) {
                                                     />
                                                 </Button>
                                             </Link>
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                color="error"
+                                                onClick={() => {
+                                                    setSelectedCar(car);
+                                                    setIsModalOpen(true);
+                                                }}
+                                            >
+                                                Delete
+                                                <MdArrowRightAlt size={20} />
+                                            </Button>
                                         </CardActions>
                                     </Card>
                                 </div>
@@ -233,6 +271,34 @@ function Dashboard({}: Props) {
                     </div>
                 </MainLayout>
             </main>
+            <Modal
+                isOpen={isModalOpen}
+                title="Caution!"
+                onClose={() => setIsModalOpen(false)}
+            >
+                <div className="flex flex-col items-center">
+                    <p className="text-2xl font-semibold">
+                        Are You Sure Want To Delete This Car?
+                    </p>
+                    <div className="flex gap-4 ml-auto">
+                        <button
+                            className="inline-flex items-center bg-red-600 text-white border-0 py-1 px-3 focus:outline-none hover:bg-red-500 rounded text-base mt-4 md:mt-0"
+                            onClick={deleetCar}
+                        >
+                            Yes
+                        </button>
+                        <button
+                            className="inline-flex items-center bg-indigo-600 text-white border-0 py-1 px-3 focus:outline-none hover:bg-indigo-500 rounded text-base mt-4 md:mt-0"
+                            onClick={() => {
+                                setIsModalOpen(false);
+                                setSelectedCar(undefined);
+                            }}
+                        >
+                            No
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 }
