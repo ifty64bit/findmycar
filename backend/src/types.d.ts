@@ -27,6 +27,9 @@ export interface Car extends Document {
     views: number;
     isAvailable: boolean;
     owner: User | string;
+    offer?: {
+        percentage: number;
+    }| any;
 }
 
 export interface Bookmark extends Document {
@@ -34,7 +37,7 @@ export interface Bookmark extends Document {
     car: Types.ObjectId;
 }
 
-export interface Search{
+export interface Search {
     query: string;
     user?: Types.ObjectId | User;
 }

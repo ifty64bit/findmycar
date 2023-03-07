@@ -11,9 +11,16 @@ export default async (req: Request, res: Response) => {
     const id = req.params.id;
     const body = req.body as PartialCar;
     try {
-        const car = (await Cars.findByIdAndUpdate(id, body, {
-            new: true,
-        }).populate("owner", "email")) as Car & {
+        const car = (await Cars.findByIdAndUpdate(
+            id,
+            {
+                ...body,
+                offer: JSON.parse(body.offer) as { percentage: number },
+            },
+            {
+                new: true,
+            }
+        ).populate("owner", "email")) as Car & {
             owner: { email: string; _id: string };
         };
 
@@ -27,7 +34,8 @@ export default async (req: Request, res: Response) => {
             "user",
             "email"
         );
-        bookmarks.forEach((bookmark) => {       //Not used asyc/await here because it will slow down the process
+        bookmarks.forEach((bookmark) => {
+            //Not used asyc/await here because it will slow down the process
             notifyUpdate(bookmark?.user?.email, car.name, car._id).catch(
                 (err) => {
                     console.error(err);

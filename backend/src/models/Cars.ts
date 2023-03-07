@@ -12,6 +12,10 @@ const carSchema = new Schema<Car>({
     views: { type: Number, default: 0 },
     isAvailable: { type: Boolean, default: true },
     owner: { type: Schema.Types.ObjectId, ref: "Users" },
+    offer: {
+        required: false,
+        percentage: { type: Number, default: 0 },
+    },
 });
 
 export default model<Car>("Cars", carSchema);

@@ -55,6 +55,7 @@ export default async (req: Request, res: Response) => {
                             else: false,
                         },
                     },
+                    offer: 1,
                 },
             },
         ]);

@@ -61,6 +61,7 @@ function Edit({}: Props) {
                                 description: carData?.description || "",
                                 seats: carData?.seats || 0,
                                 isAvailable: carData?.isAvailable || true,
+                                offer: carData?.offer?.percentage || 0,
                             }}
                             validationSchema={updateCarSchema}
                             onSubmit={async (values) => {
@@ -77,6 +78,12 @@ function Edit({}: Props) {
                                 paylaod.append(
                                     "isAvailable",
                                     values.isAvailable as any
+                                );
+                                paylaod.append(
+                                    "offer",
+                                    JSON.stringify({
+                                        percentage: values.offer,
+                                    })
                                 );
 
                                 try {
@@ -180,7 +187,12 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="price" className="leading-7 text-sm text-gray-600">Price</label>
+                                            <label
+                                                htmlFor="price"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
+                                                Price
+                                            </label>
                                             <input
                                                 type="number"
                                                 name="price"
@@ -196,7 +208,10 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="description" className="leading-7 text-sm text-gray-600">
+                                            <label
+                                                htmlFor="description"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
                                                 Description
                                             </label>
                                             <input
@@ -215,7 +230,12 @@ function Edit({}: Props) {
                                             ) : null}
                                         </div>
                                         <div className="flex flex-col">
-                                            <label htmlFor="seats" className="leading-7 text-sm text-gray-600">Seats</label>
+                                            <label
+                                                htmlFor="seats"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
+                                                Seats
+                                            </label>
                                             <input
                                                 type="number"
                                                 name="seats"
@@ -232,7 +252,33 @@ function Edit({}: Props) {
                                         </div>
 
                                         <div className="flex flex-col">
-                                            <label htmlFor="isAvailable" className="leading-7 text-sm text-gray-600">
+                                            <label
+                                                htmlFor="offer"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
+                                                Set Offer(%)
+                                            </label>
+                                            <input
+                                                type="number"
+                                                max={100}
+                                                name="offer"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.offer}
+                                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                            />
+                                            {errors.offer && touched.offer ? (
+                                                <div className="text-red-600">
+                                                    {errors.seats}
+                                                </div>
+                                            ) : null}
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <label
+                                                htmlFor="isAvailable"
+                                                className="leading-7 text-sm text-gray-600"
+                                            >
                                                 Availability
                                             </label>
                                             <Switch

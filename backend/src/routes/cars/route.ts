@@ -12,13 +12,17 @@ import validate from "../../middlewares/validate";
 import addCarValidation from "./validations/addCarValidation";
 import upload from "../../middlewares/upload";
 import getMyCars from "../../controllers/cars/getMyCars";
+import getOfferedCar from "../../controllers/cars/getOfferedCar";
 
 const router = Router();
+
+router.get("/offered", getOfferedCar);
 
 router.get("/", getAllCars);
 router.get("/search", search);
 router.get("/my", checkAuth, getMyCars);
 router.get("/:id", getCarById);
+
 router.post(
     "/",
     checkAuth,

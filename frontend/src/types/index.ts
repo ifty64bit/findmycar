@@ -25,6 +25,9 @@ export interface ICar {
     views: number;
     isAvailable: boolean;
     owner: IUser | string;
+    offer?: {
+        percentage: number;
+    };
 }
 export interface IBookmark {
     user: string | IUser;

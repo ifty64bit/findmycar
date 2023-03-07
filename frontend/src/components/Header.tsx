@@ -59,10 +59,10 @@ function Header({}: Props) {
                         Contact US
                     </Link>
                     <Link
-                        href={`/privacy`}
-                        className="mr-5 hover:text-gray-900"
+                        href={`/cars/offered`}
+                        className="mr-5 text-white font-semibold stroke-white animate-pulse"
                     >
-                        Privacy Policy
+                        Offers
                     </Link>
                 </nav>
                 {auth == null ? (
