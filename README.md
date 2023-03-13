@@ -1,24 +1,29 @@
 # Find My Car
-* Signup
-    * Receive error if their account exists. (done)[frontend/backend] 
-    * Get asked to login in their account. (done)[frontend/backend]
-* Singin with email & password (done)[Frontend/Backend]
-* In case of 3 failed login attempts within 5 minutes, restrict that user’s login for the next 15 minutes (done)[Frontend/Backend]
-* Setup auth with JWT. (done)[Frontend/Backend]
-* Create new Car listing. (done)[Frontend/Backend]
-* User should receive an email as confirmation. (done)[Frontend/Backend]
-* Read all car listings. (done)[Frontend/Backend]
-* Update their own car listing (done)[Frontend/Backend]
-    * User should receive an email as confirmation [Done]
-* Delete their own car listing [Done]
-    * User should receive an email as confirmation [Done]
-* Bookmark a car [done]
-    * If any changes come in the bookmarked car, user will receive email notificatio [done]
-* See statistics of most viewed cars in a graph (done)[Frontend/Backend]
-* Set offer in their car [Done]
-* Read all car listings (done)[Frontend/Backend]
-* Search car listings with different filters such as brand, seats, price and date range etc. with pagination (done)[Frontend/Backend]
-* Read specific car details (done)[Frontend/Backend]
-* See a page of only cars with ‘offer [Done]
-* Save all user searches automatically. [Done]
-* Recommend car listing in ‘related car listing’ based on user’s saved search and overall car details page visits of cars. [Not Complete]
+
+## Car Listing App Built with MERN Stack
+
+## Features
+
+-   Signup
+    -   Receive an error if their account exists.
+    -   Get asked to login into their account if the account already exists.
+-   Singin with email & password.
+-   In case of 3 failed login attempts within 5 minutes, restrict that user’s login for the next 15 minutes
+-   Authentication using JWT
+-   Create a new Car listing
+-   User will receive an email as confirmation for the new car listing.
+-   User can read all car listings.
+-   A user can update their own car listing.
+    -   User will receive an email as confirmation.
+-   A user can delete their own car listing
+    -   User will receive an email as confirmation.
+-   A user can bookmark a car.
+    -   The user will receive an email notification if any changes come in the bookmarked car.
+-   User can view statistics of most viewed cars in a graph.
+-   Users can set an offer in their car.
+-   All users including (not logged-in users) can read all car listings.
+-   User can search car listings with filters such as brand, seats, price and date range, etc. with pagination.
+-   User can read specific car details
+-   User can view a page of only cars with ‘offer'
+-   User's search query will be saved automatically.
+    -   User can delete all searches at once or one by one.
